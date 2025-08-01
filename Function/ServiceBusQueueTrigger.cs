@@ -6,8 +6,6 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Azure.AI.OpenAI;
 using Azure;
-using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.Azure.Functions.Worker.Extensions.SignalRService;
 
 namespace SBTriggerOAI
 {
@@ -35,8 +33,7 @@ namespace SBTriggerOAI
         }
 
         [Function("ProcessMessage")]
-        [SignalROutput(HubName = "%AzureSignalRHubName%", ConnectionStringSetting = "AzureSignalRConnectionString")]
-        public async Task<SignalRMessageAction> Run(
+        public async Task Run(
             [ServiceBusTrigger("%ServiceBusQueueName%", Connection = "ServiceBusConnection")] string message,
             FunctionContext context)
         {
@@ -46,7 +43,6 @@ namespace SBTriggerOAI
             try
             {
                 var obj = JsonSerializer.Deserialize<Dictionary<string, string>>(message);
-                if (obj == null) throw new InvalidOperationException("Deserialized object is null");
                 userName = obj.GetValueOrDefault("userName") ?? "Unknown";
                 groupName = obj.GetValueOrDefault("groupName") ?? "default";
                 userMessage = obj.GetValueOrDefault("message") ?? "";
@@ -55,16 +51,7 @@ namespace SBTriggerOAI
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to parse incoming message JSON: {ex.Message}");
-                // Return a SignalR message indicating parsing error
-                return new SignalRMessageAction("NewMessage")
-                {
-                    Arguments = new object[]
-                    {
-                        "Error: Failed to parse message",
-                        DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
-                    },
-                    GroupName = "default"
-                };
+                return;
             }
 
             string responseMessage = userMessage;
@@ -73,7 +60,7 @@ namespace SBTriggerOAI
             {
                 // Get deployment name from environment variable
                 var deployment = Environment.GetEnvironmentVariable("AzureOpenAIDeployment");
-
+                
                 if (string.IsNullOrEmpty(deployment))
                 {
                     _logger.LogError("Azure OpenAI deployment configuration is missing. Please set AzureOpenAIDeployment environment variable.");
@@ -121,17 +108,6 @@ namespace SBTriggerOAI
             }
 
             _logger.LogInformation($"Processed message from {userName} in group {groupName}: {responseMessage}");
-
-            // Return SignalR message to send to the group
-            return new SignalRMessageAction("NewMessage")
-            {
-                Arguments = new object[]
-                {
-                    userName,
-                    responseMessage
-                },
-                GroupName = groupName
-            };
         }
     }
 }
