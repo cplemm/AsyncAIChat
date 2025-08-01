@@ -1,0 +1,88 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0" version="28.0.7">
+  <diagram name="Page-1" id="XtyZFD4BaBV9jrSh4CB2">
+    <mxGraphModel dx="676" dy="781" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-1" value="" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="180" y="301" width="20" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="394" y="320" as="targetPoint" />
+            <mxPoint x="252" y="320" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-8" value="" style="shape=mxgraph.cisco.computers_and_peripherals.web_browser;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="210" y="304" width="38" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-10" value="APIM" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="393" y="349" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-11" value="" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/ai_machine_learning/Azure_OpenAI.svg;" vertex="1" parent="1">
+          <mxGeometry x="650" y="302" width="39" height="39" as="geometry" />
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-12" value="LLM" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="622" y="349" width="93" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-15" value="Prompt" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="294" y="298" width="50" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="327" as="targetPoint" />
+            <mxPoint x="390" y="327" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-20" value="Response" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="294" y="327" width="50" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-29" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/icon-cache1/Ionicons-2627/icon-ios7-stopwatch-outline-1323.svg" vertex="1" parent="1">
+          <mxGeometry x="510" y="240" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-30" value="Latency" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#FF8000;fontStyle=3" vertex="1" parent="1">
+          <mxGeometry x="540" y="243.5" width="50" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-32" value="" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/other/Worker_Container_App.svg;" vertex="1" parent="1">
+          <mxGeometry x="520" y="299" width="51.52" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="320" as="sourcePoint" />
+            <mxPoint x="515" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="510" y="327" as="sourcePoint" />
+            <mxPoint x="450" y="327" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-36" value="API" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="511.52" y="349" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-37" value="Chat App" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="349" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-38" value="" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/app_services/API_Management_Services.svg;" vertex="1" parent="1">
+          <mxGeometry x="399" y="302" width="46.59" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="578" y="319" as="sourcePoint" />
+            <mxPoint x="643" y="319" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="638" y="326" as="sourcePoint" />
+            <mxPoint x="578" y="326" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-41" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;rotation=90;fontColor=#A6A6A6;" vertex="1" parent="1">
+          <mxGeometry x="533.75" y="188.25" width="20" height="185.5" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
