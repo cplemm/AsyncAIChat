@@ -17,7 +17,26 @@ Now, imagine your app is going viral, more and more users are using it, so a lar
 **Long story short**: long‑running synchronous calls are an anti-pattern, specifically when used at scale.
 
 ## Solution
-The best way to tackle this is to decouple the  
+The way to tackle this is to decouple components by using asynchronicity and messaging. In order to avoid UI clients having to keep HTTP connections to APIM open for a long time, we can implement a pattern where clients just 'hand off' their request and 'wait' in an intelligent way for the response.
+
+### Hand off request
+An easy way to do that in APIM is to implement a policy that takes the request coming from the client and passes it as a message into an Azure Service Bus (SB) queue. As soon as SB has persisted the message (and ACKed it back to APIM), APIM sends an 'HTTP 201 Created' response back to the client (where the user can potentially continue to do stuff, as the UI thread is not freezing 🙂).
+
+TODO: _include reference to policy snippet_
+
+### Work on request
+Now, a scalable worker component running in Azure Functions, Container Apps, AKS, etc. pulls the message from the queue and starts processing in the backend. In our simple scenario that's just an asynchronous call to an Azure OpenAI endpoint to retrieve an LLM response for the user's prompt. 
+
+**Note:** This processing step can obviously be a much more complex procedure (RAG, multi-agent collaboration, etc.) and might also involve more layers of decoupling/messaging. Let's keep it with a single layer of decoupling for now, to observe the effect this already has on latency & scale.
+
+### Pass back response
+So, how do we deliver the response back to the UI client, as the initial call has returned immediately after the message has been passed to Azure Servce Bus, and that connection has been closed?
+Well, why not use a fully managed Azure Service like [Azure SignalR](https://learn.microsoft.com/en-us/azure/azure-signalr/signalr-overview) that has been built specifically for pushing content to connected clients at scale, without the client having to poll?
+The service is designed for large-scale real-time applications and has been tested to scale to millions of client connections.
+
+The picture below shows our revised approach:
+
+
 
 ## Deployment 
 
