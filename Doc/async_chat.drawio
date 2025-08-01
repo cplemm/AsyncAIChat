@@ -52,8 +52,8 @@
             <mxPoint x="450" y="327" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="4y9Fi3Vy4SqghmAU4niY-36" value="API" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="650" y="349" width="60" height="30" as="geometry" />
+        <mxCell id="4y9Fi3Vy4SqghmAU4niY-36" value="API/Worker" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="644" y="349" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="4y9Fi3Vy4SqghmAU4niY-37" value="Chat App" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="185" y="349" width="60" height="30" as="geometry" />
