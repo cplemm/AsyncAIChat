@@ -27,14 +27,25 @@ TODO: _include reference to policy snippet_
 ### Work on request
 Now, a scalable worker component running in Azure Functions, Container Apps, AKS, etc. pulls the message from the queue and starts processing in the backend. In our simple scenario that's just an asynchronous call to an Azure OpenAI endpoint to retrieve an LLM response for the user's prompt. 
 
-**Note:** This processing step can obviously be a much more complex procedure (RAG, multi-agent collaboration, etc.) and might also involve more layers of decoupling/messaging. Let's keep it with a single layer of decoupling for now, to observe the effect this already has on latency & scale.
+**Note:** This processing step can obviously be a much more complex procedure (RAG, multi-agent collaboration, etc.) and might involve even more layers of decoupling/messaging. But let's keep it with a single layer of decoupling for now and observe the effect this already has on latency & scale.
 
 ### Pass back response
 So, how do we deliver the response back to the UI client, as the initial call has returned immediately after the message has been passed to Azure Servce Bus, and that connection has been closed?
-Well, why not use a fully managed Azure Service like [Azure SignalR](https://learn.microsoft.com/en-us/azure/azure-signalr/signalr-overview) that has been built specifically for pushing content to connected clients at scale, without the client having to poll?
-The service is designed for large-scale real-time applications and has been tested to scale to millions of client connections.
+Well, why not use a fully managed Azure Service like [Azure SignalR](https://learn.microsoft.com/en-us/azure/azure-signalr/signalr-overview) that has been built specifically for that scenario: pushing content to connected clients at scale, without the client having to poll.
+The service is designed for large-scale, real-time applications and has been tested to handle millions of client connections.
 
+### Approach
 The picture below shows our revised approach:
+
+![](Doc/async_chat.png)
+
+Potentially, we can now connect thousands and thousands of clients at the same time and let them send requests, without running into the issues described above. The interesting piece is: you don't actually have to change too much of your existing code (well, obviously that depends on what you already have and where you're coming from). 
+
+In order to demonstrate that, this repo shows a revised version for one of the canoncial SignalR Chat examples, see [Build an AI-powered group chat with Azure SignalR and OpenAI Completion API](https://learn.microsoft.com/en-us/azure/azure-signalr/signalr-tutorial-group-chat-with-openai) and the associated [GitHub repo](https://github.com/aspnet/AzureSignalR-samples/tree/main/samples/AIStreaming).
+
+The app implements a SignalR group chat with ChatGPT integration, see below.
+
+![](Doc/chat.jpg)
 
 
 
