@@ -66,7 +66,7 @@ module storage 'br/public:avm/res/storage/storage-account:0.25.0' = {
   params: {
     name: storageAccountName
     allowBlobPublicAccess: false
-    allowSharedKeyAccess: false // disable for MI authentication 
+    allowSharedKeyAccess: true // disable for MI authentication 
     dnsEndpointType: 'Standard'
     publicNetworkAccess: 'Enabled'
     networkAcls: {
