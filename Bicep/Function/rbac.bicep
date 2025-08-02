@@ -1,8 +1,6 @@
 param storageAccountName string
 param appInsightsName string
 param managedIdentityPrincipalId string // Principal ID for the System-Assigned Managed Identity
-// param userIdentityPrincipalId string = '' // Principal ID for the User Identity
-// param allowUserIdentityPrincipal bool = false // Flag to enable user identity role assignments
 
 // Define Role Definition IDs for Azure built-in roles
 var roleDefinitions = {

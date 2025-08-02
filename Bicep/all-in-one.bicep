@@ -31,10 +31,24 @@ param sbCapacity int
 param sbQueueName string
 
 // submodules
+module sbModule 'ServiceBus/main.bicep' = {
+  name: 'deploy-ServiceBus'
+  scope: resourceGroup(rgName)
+  params: {
+    location: location
+    sbName: sbName
+    sbSku: sbSku
+    sbCapacity: sbCapacity
+    sbQueueName: sbQueueName
+//  apimPrincipalId: apimModule.outputs.principalId
+  }
+}
+
 module apimModule 'APIM/main.bicep' = {
   name: 'deploy-APIM'
   scope: resourceGroup(rgName)
   params: {
+    // rgName: rgName
     location: location
     apimName: apimName
     apimSku: apimSku
@@ -49,19 +63,6 @@ module openaiModule 'OpenAI/main.bicep' = {
     location: location
     csAccountName: csAccountName
     modelTPM: modelTPM
-  }
-}
-
-module sbModule 'ServiceBus/main.bicep' = {
-  name: 'deploy-ServiceBus'
-  scope: resourceGroup(rgName)
-  params: {
-    location: location
-    sbName: sbName
-    sbSku: sbSku
-    sbCapacity: sbCapacity
-    sbQueueName: sbQueueName
-  apimPrincipalId: apimModule.outputs.principalId
   }
 }
 

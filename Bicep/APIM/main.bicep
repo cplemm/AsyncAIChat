@@ -2,12 +2,13 @@
 targetScope = 'resourceGroup'
 
 param location string
+// param rgName string
 
 param apimName string
 param apimSku string
 param sbName string
 
-module service 'br/public:avm/res/api-management/service:0.9.1' = {
+module apimService 'br/public:avm/res/api-management/service:0.9.1' = {
   name: apimName
   params: {
     name: apimName
@@ -50,7 +51,7 @@ module service 'br/public:avm/res/api-management/service:0.9.1' = {
 resource product 'Microsoft.ApiManagement/service/products@2024-05-01' = {
   name: '${apimName}/SB'
   dependsOn: [
-    service
+    apimService
   ]
   properties: {
     displayName: 'SB'
@@ -71,7 +72,7 @@ resource subscription 'Microsoft.ApiManagement/service/subscriptions@2024-05-01'
 resource sendOperation 'Microsoft.ApiManagement/service/apis/operations@2024-05-01' = {
   name: '${apimName}/sendtosb/send'
   dependsOn: [
-    service
+    apimService
   ]
   properties: {
     displayName: 'Send'
@@ -105,9 +106,19 @@ resource sendPolicy 'Microsoft.ApiManagement/service/apis/operations/policies@20
   name: 'policy'
   properties: {
     format: 'xml'
-    value: '<policies>\n  <inbound>\n    <base />\n    <authentication-managed-identity resource="https://servicebus.azure.net" output-token-variable-name="msi-access-token" ignore-error="false" />\n    <set-header name="Authorization" exists-action="override">\n      <value>@((string)context.Variables["msi-access-token"])</value>\n    </set-header>\n    <set-body>@(context.Request.Body.As&lt;string&gt;())</set-body>\n    <set-backend-service base-url="https://{{serviceBusNamespace}}.servicebus.windows.net/{{queue}}/messages?api-version=2015-01" />\n  </inbound>\n  <backend>\n    <base />\n  </backend>\n  <outbound>\n    <base />\n  </outbound>\n  <on-error>\n    <base />\n  </on-error>\n</policies>'
+    value: '<policies>\n  <inbound>\n    <cors>\n    <allowed-origins>\n    <origin>*</origin>\n    </allowed-origins>\n    <allowed-methods>\n    <method>POST</method>\n    </allowed-methods>\n    <allowed-headers>\n    <header>*</header>\n    </allowed-headers>\n    </cors>\n    <base />\n    <authentication-managed-identity resource="https://servicebus.azure.net" output-token-variable-name="msi-access-token" ignore-error="false" />\n    <set-header name="Authorization" exists-action="override">\n      <value>@((string)context.Variables["msi-access-token"])</value>\n    </set-header>\n    <set-body>@(context.Request.Body.As&lt;string&gt;())</set-body>\n    <set-backend-service base-url="https://{{serviceBusNamespace}}.servicebus.windows.net/{{queue}}/messages?api-version=2015-01" />\n  </inbound>\n  <backend>\n    <base />\n  </backend>\n  <outbound>\n    <base />\n  </outbound>\n  <on-error>\n    <base />\n  </on-error>\n</policies>'
+  }
+}
+
+// Role Assignments
+module rbacAssignments './rbac.bicep' = {
+  name: 'rbacAssignmentsAPIM'
+  // scope: resourceGroup(rgName)
+  params: {
+    sbName: sbName
+    managedIdentityPrincipalId: apimService.outputs.?systemAssignedMIPrincipalId ?? ''
   }
 }
 
 // Output the system-assigned managed identity principalId from the AVM module
-output principalId string = service.outputs.?systemAssignedMIPrincipalId  ?? ''
+// output principalId string = apimService.outputs.?systemAssignedMIPrincipalId  ?? ''

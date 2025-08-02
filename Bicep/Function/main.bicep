@@ -122,6 +122,12 @@ module functionApp 'br/public:avm/res/web/site:0.16.0' = {
       scaleAndConcurrency: {
         maximumInstanceCount: maximumInstanceCount
         instanceMemoryMB: instanceMemoryMB
+        alwaysReady: [
+          {
+            name: 'function:processmessage'
+            instanceCount: 1
+          }
+        ]
       }
       runtime: { 
         name: functionAppRuntime
@@ -144,7 +150,7 @@ module functionApp 'br/public:avm/res/web/site:0.16.0' = {
         APPLICATIONINSIGHTS_CONNECTION_STRING: applicationInsights.outputs.connectionString
         APPLICATIONINSIGHTS_AUTHENTICATION_STRING: 'Authorization=AAD'
         AzureOpenAIDeployment: 'gpt-4o'
-        AzureOpenAIEndpoint: csAccount.properties.endpoint
+        AzureOpenAIEndpoint: 'https://${location}.api.cognitive.microsoft.com/'
         AzureOpenAIKey: csAccount.listKeys().key1
         AzureSignalRConnectionString: signalR.listKeys().primaryConnectionString
         AzureSignalRHubName: 'groupchathub'
@@ -157,7 +163,7 @@ module functionApp 'br/public:avm/res/web/site:0.16.0' = {
 
 // Role Assignments
 module rbacAssignments './rbac.bicep' = {
-  name: 'rbacAssignments'
+  name: 'rbacAssignmentsFunction'
   scope: resourceGroup(rgName)
   params: {
     storageAccountName: storage.outputs.name
