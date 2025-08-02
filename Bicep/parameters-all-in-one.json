@@ -1,0 +1,46 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "location": {
+        "value": "swedencentral"
+      },
+      "rgName": {
+        "value": "AsyncChat"
+      },
+      "apimName": {
+        "value": "AsyncChatAPIM2"
+      },
+      "apimSku": {
+        "value": "BasicV2"
+      },
+      "sbName": {
+        "value": "AsyncChatServiceBus"
+      },
+      "csName": {
+        "value": "AsyncChatOpenAI"
+      },
+      "modelTPM": {
+        "value": 100
+      },
+      "sbSku": {
+        "value": "Standard"
+      },
+      "sbCapacity": {
+        "value": 1
+      },
+      "sbQueueName": {
+        "value": "prompt"
+      },
+      "signalRName": {
+        "value": "AsyncChatSignalR"
+      },
+      "signalRSku": {
+        "value": "Standard_S1"
+      },
+      "signalRCapacity": {
+        "value": 1
+      }
+    }
+  }
+  

@@ -2,8 +2,17 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-      "rgName": {
-        "value": "CopilotEngineering"
+      "location": {
+        "value": "swedencentral"
+      },
+      "apimName": {
+        "value": "AsyncChatAPIM"
+      },
+      "apimSku": {
+        "value": "BasicV2"
+      },
+      "sbName": {
+        "value": "AsyncChatServiceBus"
       }
     }
   }
