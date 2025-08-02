@@ -39,7 +39,7 @@ module namespace 'br/public:avm/res/service-bus/namespace:0.15.0' = {
 }
 
 // Assign 'Azure Service Bus Data Sender' role to APIM managed identity if principalId is provided
-resource sbNamespace 'Microsoft.ServiceBus/namespaces@2023-01-01-preview' existing = {
+resource sbNamespace 'Microsoft.ServiceBus/namespaces@2024-01-01' existing = {
   name: sbName
 }
 

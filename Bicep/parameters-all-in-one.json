@@ -17,7 +17,7 @@
       "sbName": {
         "value": "AsyncChatServiceBus"
       },
-      "csName": {
+      "csAccountName": {
         "value": "AsyncChatOpenAI"
       },
       "modelTPM": {

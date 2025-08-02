@@ -5,7 +5,7 @@
       "location": {
         "value": "swedencentral"
       },
-      "csName": {
+      "csAccountName": {
         "value": "AsyncChatOpenAI"
       },
       "modelTPM": {

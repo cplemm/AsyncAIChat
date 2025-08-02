@@ -2,15 +2,15 @@
 targetScope = 'resourceGroup'
 
 param location string
-param csName string
+param csAccountName string
 param modelTPM int
 
-module account 'br/public:avm/res/cognitive-services/account:0.12.0' = {
-  name: csName
+module csAccount 'br/public:avm/res/cognitive-services/account:0.12.0' = {
+  name: csAccountName
   params: {
     kind: 'AIServices'
     location: location
-    name: csName
+    name: csAccountName
     deployments: [
       {
         model: {
@@ -26,5 +26,6 @@ module account 'br/public:avm/res/cognitive-services/account:0.12.0' = {
       }
     ]
     publicNetworkAccess: 'Enabled'
+    disableLocalAuth: false
   }
 }

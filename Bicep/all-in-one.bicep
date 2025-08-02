@@ -20,7 +20,7 @@ param signalRCapacity int
 /////////////////
 // Azure OpenAI
 /////////////////
-param csName string
+param csAccountName string
 param modelTPM int
 
 /////////////////
@@ -47,7 +47,7 @@ module openaiModule 'OpenAI/main.bicep' = {
   scope: resourceGroup(rgName)
   params: {
     location: location
-    csName: csName
+    csAccountName: csAccountName
     modelTPM: modelTPM
   }
 }

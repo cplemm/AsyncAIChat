@@ -4,6 +4,36 @@
     "parameters": {
       "rgName": {
         "value": "AsyncChat"
+      },
+      "location": {
+        "value": "swedencentral"
+      },
+      "logAnalyticsName": {
+        "value": "AsyncChatLogs"
+      },
+      "applicationInsightsName": {
+        "value": "AsyncChatInsights"
+      },
+      "storageAccountName": {
+        "value": "asyncchatstorage4711"
+      },
+      "functionPlanName": {
+        "value": "AsyncChatFunctionPlan"
+      },
+      "functionAppName": {
+        "value": "AsyncChatFunctionApp"
+      },
+      "csAccountName": {
+        "value": "AsyncChatOpenAI"
+      },
+      "signalRName": {
+        "value": "AsyncChatSignalR"
+      },
+      "sbQueueName": {
+        "value": "prompt"
+      },
+      "sbName": {
+        "value": "AsyncChatServiceBus"
       }
     }
   }
