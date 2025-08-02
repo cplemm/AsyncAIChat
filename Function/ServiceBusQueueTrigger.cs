@@ -33,11 +33,11 @@ namespace SBTriggerOAI
         }
 
         [Function("ProcessMessage")]
-        public async Task Run(
-            [ServiceBusTrigger("%ServiceBusQueueName%", Connection = "ServiceBusConnection")] string message,
-            FunctionContext context)
+        [SignalROutput(HubName = "%AzureSignalRHubName%")]
+        public async Task<SignalRMessageAction> Run(
+            [ServiceBusTrigger("%ServiceBusQueueName%", Connection = "ServiceBusConnection")] string message)
         {
-            _logger.LogInformation($"Message received: {message}");
+            _logger.LogInformation($"Message: {message}");
 
             string userName, groupName, userMessage, timestamp;
             try
@@ -51,7 +51,11 @@ namespace SBTriggerOAI
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to parse incoming message JSON: {ex.Message}");
-                return;
+                return new SignalRMessageAction("NewMessage")
+                {
+                    Arguments = new object[] { "System", "Error processing message" },
+                    GroupName = "default"
+                };
             }
 
             string responseMessage = userMessage;
@@ -107,7 +111,12 @@ namespace SBTriggerOAI
                 }
             }
 
-            _logger.LogInformation($"Processed message from {userName} in group {groupName}: {responseMessage}");
+            // Return SignalR message action
+            return new SignalRMessageAction("NewMessage")
+            {
+                Arguments = new object[] { userName, responseMessage },
+                GroupName = groupName
+            };
         }
     }
 }
