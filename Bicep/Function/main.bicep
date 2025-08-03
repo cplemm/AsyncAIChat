@@ -14,7 +14,6 @@ param applicationInsightsName string
 param sbName string
 param sbQueueName string
 
-param zoneRedundant bool = false
 param functionAppRuntime string = 'dotnet-isolated'
 param functionAppRuntimeVersion string = '8.0'
 param maximumInstanceCount int = 100
@@ -94,7 +93,7 @@ module appServicePlan 'br/public:avm/res/web/serverfarm:0.1.1' = {
     }
     reserved: true
     location: location
-    zoneRedundant: zoneRedundant
+    zoneRedundant: false
   }
 }
 

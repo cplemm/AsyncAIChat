@@ -4,6 +4,27 @@
     "parameters": {
       "rgName": {
         "value": "AsyncChat"
+      },
+      "location": {
+        "value": "swedencentral"
+      },
+      "webappPlanName": {
+        "value": "AsyncChatWebAppPlan"
+      },
+      "webappName": {
+        "value": "AsyncChatWebApp"
+      },
+      "webappPlanSku": {
+        "value": "B1"
+      },
+      "webappPlanCapacity": {
+        "value": 1
+      },
+      "apimName": {
+        "value": "AsyncChatAPIM"
+      },
+      "signalRName": {
+        "value": "AsyncChatSignalR"
       }
     }
   }
