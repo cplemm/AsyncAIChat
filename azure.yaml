@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: async-chat
+metadata:
+    template: azd-init@1.14.0
+services:
+    client:
+        project: src/Client
+        host: appservice
+        language: csharp
+    function:
+        project: src/Function
+        host: function
+        language: dotnet

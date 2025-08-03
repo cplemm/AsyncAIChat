@@ -1,0 +1,42 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "environmentName": {
+        "value": "${AZURE_ENV_NAME}"
+      },
+      "location": {
+        "value": "${AZURE_LOCATION}"
+      },
+      "rgName": {
+        "value": "AsyncChat2"
+      },
+      "apimSku": {
+        "value": "BasicV2"
+      },
+      "modelTPM": {
+        "value": 100
+      },
+      "sbSku": {
+        "value": "Standard"
+      },
+      "sbCapacity": {
+        "value": 1
+      },
+      "sbQueueName": {
+        "value": "prompt"
+      },
+      "signalRSku": {
+        "value": "Standard_S1"
+      },
+      "signalRCapacity": {
+        "value": 1
+      },
+      "webappPlanSku": {
+        "value": "B1"
+      },
+      "webappPlanCapacity": {
+        "value": 1
+      }
+    }
+}

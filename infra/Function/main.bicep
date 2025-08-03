@@ -4,7 +4,6 @@ param rgName string
 param location string 
 
 param logAnalyticsName string 
-
 param functionPlanName string 
 param functionAppName string 
 param storageAccountName string 
