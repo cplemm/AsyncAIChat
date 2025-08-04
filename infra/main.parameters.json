@@ -8,9 +8,6 @@
       "location": {
         "value": "${AZURE_LOCATION}"
       },
-      "rgName": {
-        "value": "AsyncChat2"
-      },
       "apimSku": {
         "value": "BasicV2"
       },
