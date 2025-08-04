@@ -89,12 +89,13 @@ function joinGroupWithName(groupName) {
 }
 
 function bindConnectionMessages(connection) {
-    connection.on('newMessage', (name, message) => {
-        console.log('Received message:', name, message);
-        appendMessage(false, `${name}: ${message}`);
+    connection.on('newMessage', (name, timestamp, message) => {
+        const localTimestamp = new Date().toLocaleString();
+        // console.log('Received message:', name, timestamp, `(local: ${localTimestamp})`, message);
+        appendMessage(false, `${name}:\n${timestamp}\n${localTimestamp}\n${message}`);
     });
     connection.on('newMessageWithId', (name, id, message) => {
-        appendMessageWithId(id, `${name}: ${message}`);
+        appendMessageWithId(id, `${name}:\n${timestamp}\n${message}`);
     });
     connection.onclose(() => {
         updateConnectionStatus(false);

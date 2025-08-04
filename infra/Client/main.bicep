@@ -82,7 +82,7 @@ module site 'br/public:avm/res/web/site:0.16.0' = {
         // }
         {
           name: 'APIM__Endpoint'
-          value: '${apimService.properties.gatewayUrl}/sendtosb'
+          value: apimService.properties.gatewayUrl
         }
         {
           name: 'APIM__SubscriptionKey'

@@ -43,6 +43,8 @@ namespace SBTriggerOAI
             try
             {
                 var obj = JsonSerializer.Deserialize<Dictionary<string, string>>(message);
+                if (obj == null)
+                    throw new Exception("Deserialized message is null.");
                 userName = obj.GetValueOrDefault("userName") ?? "Unknown";
                 groupName = obj.GetValueOrDefault("groupName") ?? "default";
                 userMessage = obj.GetValueOrDefault("message") ?? "";
@@ -53,7 +55,7 @@ namespace SBTriggerOAI
                 _logger.LogError($"Failed to parse incoming message JSON: {ex.Message}");
                 return new SignalRMessageAction("NewMessage")
                 {
-                    Arguments = new object[] { "System", "Error processing message" },
+                    Arguments = new object[] { "System", DateTime.Now, "Error processing message" },
                     GroupName = "default"
                 };
             }
@@ -114,7 +116,7 @@ namespace SBTriggerOAI
             // Return SignalR message action
             return new SignalRMessageAction("NewMessage")
             {
-                Arguments = new object[] { userName, responseMessage },
+                Arguments = new object[] { userName, DateTime.Now, responseMessage },
                 GroupName = groupName
             };
         }
