@@ -106,6 +106,9 @@ var apimNameRedacted = !empty(apimName) ? apimName : '${abbrs.apiManagementServi
 module apimModule './APIM/main.bicep' = {
   name: 'deploy-APIM'
   scope: rg
+  dependsOn: [
+    sbModule
+  ]
   params: {
     location: location
     apimName: apimNameRedacted
