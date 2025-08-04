@@ -55,6 +55,11 @@ param webappPlanName string = ''
 param webappPlanSku string 
 param webappPlanCapacity int
 
+/////////////////
+// Load Testing
+/////////////////
+param loadtestName string = ''
+
 // Organize resources in a resource group
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: rgName
@@ -158,6 +163,16 @@ module clientModule './Client/main.bicep' = {
     apimName: apimNameRedacted
     webappPlanCapacity: webappPlanCapacity
     webappPlanSku: webappPlanSku
+    tags: tags
+  }
+}
+
+module loadtestModule './LoadTesting/main.bicep' = {
+  name: 'deploy-LoadTesting'
+  scope: rg
+  params: {
+    location: location
+    loadtestName: !empty(loadtestName) ? loadtestName : 'lt-${resourceToken}'
     tags: tags
   }
 }
