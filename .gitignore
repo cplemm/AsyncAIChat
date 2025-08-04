@@ -466,5 +466,5 @@ tramp
 
 # Installshield output folder
 [Ee]xpress/
-Client/appsettings.json
+appsettings.json
 .azure
