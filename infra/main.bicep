@@ -121,6 +121,11 @@ module apimModule './APIM/main.bicep' = {
 module functionModule './Function/main.bicep' = {
   name: 'deploy-Function'
   scope: rg
+  dependsOn: [
+    sbModule
+    openaiModule
+    signalRModule
+  ]
   params: {
     location: location
     rgName: rgName
@@ -140,6 +145,10 @@ module functionModule './Function/main.bicep' = {
 module clientModule './Client/main.bicep' = {
   name: 'deploy-WebApp'
   scope: rg
+  dependsOn: [
+    apimModule
+    signalRModule
+  ]
   params: {
     location: location
     rgName: rgName
