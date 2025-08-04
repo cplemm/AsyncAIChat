@@ -101,6 +101,19 @@ The steps below will provision the required Azure resources. Enter the following
     You will have to select your subscription and an Azure region, and specify a name for the target resource group (rgName).
 
 4. Wait for the provisioning process to complete.
+5. Optional: you can test the app & function locally before deploying them to Azure:
+   
+     - Azure Function
+         - In the ./src/Function folder, create a copy of the ```local.settings.sample.json``` file and name it ```local.settings.json```.
+         - Fill in all required configuration values => you can find them in the Azure Portal in the resources you have provisioned above.
+         - Open a terminal window and navigate to the Functions directory (```cd ./src/Function```)
+         - Start the Function locally by running ```func start```
+     - Web App
+         - In the ./src/Client folder, create a copy of the ```appsettings.sample.json``` file and name it ```appsettings.json```.
+         - Fill the required configuration values for APIM and SignalR => again, find them in the Azure Portal. Copy the APIM subscription key from the 'SB subscription' that you find under APIs->Subscriptions.
+         - Open a NEW terminal window and navigate to the Client directory (```cd ./src/Client```)
+         - Start the web app locally by running ```dotnet run```
+         - Open the browser on the port shown and [test](#test) the app.
 
 ### Deploy App & Function
 
@@ -111,10 +124,13 @@ The steps below will provision the required Azure resources. Enter the following
     ```
 
 2. Wait for the deployment process to complete.
+3. (You can also combine the provisioning & deployment steps above in a single go using ```azd up```).  
 
 ## Test
 
 To test the app, wait for the app deployment to finish. Then navigate to the URL of the web app and open it up in the browser. Check out the [original repo](https://github.com/aspnet/AzureSignalR-samples/tree/main/samples/AIStreaming#how-it-works) to see how the chat app works.
+
+Go [here](https://microsoft.com) for more information about test results.
 
 ## Clean up
 
@@ -124,5 +140,5 @@ To test the app, wait for the app deployment to finish. Then navigate to the URL
     azd down --purge
     ```
 
-The purge switch will make sure that the APIM and the Cognitive Services instances will get deleted permanently - otherwise soft deletion is the default, and re-running the provisioning process will run into errors.
+The purge switch will make sure that the APIM and the Cognitive Services instances will get deleted permanently - otherwise, as soft deletion is the default, re-running the provisioning process will run into errors.
 
