@@ -48,7 +48,7 @@ app.MapGet("/api/config", (IConfiguration configuration) =>
 {
     return new
     {
-        ApimEndpoint = configuration["APIM:Endpoint"],
+        ApimEndpoint = configuration["APIM:Endpoint"] + "/sendtosb",
         ApimSubscriptionKey = configuration["APIM:SubscriptionKey"]
     };
 });
