@@ -5,10 +5,10 @@ metadata:
     template: azd-init@1.14.0
 services:
     client:
-        project: src/Client
+        project: ./src/Client
         host: appservice
         language: csharp
     function:
-        project: src/Function
+        project: ./src/Function
         host: function
         language: dotnet

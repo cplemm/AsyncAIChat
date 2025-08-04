@@ -6,16 +6,18 @@ param sbName string
 param sbSku string
 param sbCapacity int
 param sbQueueName string
-// param apimName string
+param tags object
 
-// @description('The principalId of the APIM managed identity to grant Service Bus Data Sender role')
-// param apimPrincipalId string = ''
+var serviceTags = union(tags, {
+  'azd-service-name': 'servicebus'
+})
 
 module namespace 'br/public:avm/res/service-bus/namespace:0.15.0' = {
   name: sbName
   params: {
     name: sbName
     location: location
+    tags: serviceTags
     disableLocalAuth: false
     skuObject: {
       capacity: sbCapacity
@@ -38,25 +40,3 @@ module namespace 'br/public:avm/res/service-bus/namespace:0.15.0' = {
     ]
   }
 }
-
-// resource apimService 'Microsoft.ApiManagement/service@2024-05-01' existing = {
-//   name: apimName
-// }
-
-// // Assign 'Azure Service Bus Data Sender' role to APIM managed identity if principalId is provided
-// resource sbNamespace 'Microsoft.ServiceBus/namespaces@2024-01-01' existing = {
-//   name: sbName
-// }
-
-// resource apimToSbRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(apimPrincipalId)) {
-//   name: guid(resourceGroup().id, sbName, apimPrincipalId, 'AzureServiceBusDataSender')
-//   scope: sbNamespace
-//   properties: {
-//     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '69a216fc-b8fb-44d8-bc22-1f3c2cd27a39')
-//     principalId: apimService.properties.
-//     principalType: 'ServicePrincipal'
-//   }
-// }
-
-// Output the Service Bus namespace resourceId
-// output namespaceResourceId string = namespace.outputs.resourceId

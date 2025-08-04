@@ -2,17 +2,21 @@
 targetScope = 'resourceGroup'
 
 param location string
-// param rgName string
-
 param apimName string
 param apimSku string
 param sbName string
+param tags object
+
+var serviceTags = union(tags, {
+  'azd-service-name': 'apim'
+})
 
 module apimService 'br/public:avm/res/api-management/service:0.9.1' = {
   name: apimName
   params: {
     name: apimName
     location: location
+    tags: serviceTags
     publisherEmail: 'someone@hotmail.com'
     publisherName: apimName
     sku: apimSku
@@ -113,12 +117,8 @@ resource sendPolicy 'Microsoft.ApiManagement/service/apis/operations/policies@20
 // Role Assignments
 module rbacAssignments './rbac.bicep' = {
   name: 'rbacAssignmentsAPIM'
-  // scope: resourceGroup(rgName)
   params: {
     sbName: sbName
     managedIdentityPrincipalId: apimService.outputs.?systemAssignedMIPrincipalId ?? ''
   }
 }
-
-// Output the system-assigned managed identity principalId from the AVM module
-// output principalId string = apimService.outputs.?systemAssignedMIPrincipalId  ?? ''

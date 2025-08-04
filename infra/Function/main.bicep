@@ -1,3 +1,4 @@
+// https://github.com/Azure/bicep-registry-modules/tree/main/avm/res/web/site 
 targetScope = 'resourceGroup'
 
 param rgName string
@@ -17,6 +18,11 @@ param functionAppRuntime string = 'dotnet-isolated'
 param functionAppRuntimeVersion string = '8.0'
 param maximumInstanceCount int = 100
 param instanceMemoryMB int = 2048
+param tags object
+
+var serviceTags = union(tags, {
+  'azd-service-name': 'function'
+})
 
 // Generate a unique token to be used in naming resources.
 @description('Name of the the environment which is used to generate a short unique hash used in all resources.')
@@ -42,6 +48,7 @@ module logAnalytics 'br/public:avm/res/operational-insights/workspace:0.11.1' = 
   scope: resourceGroup(rgName)
   params: {
     name: logAnalyticsName
+    tags: tags
     location: location
     dataRetention: 30
   }
@@ -52,6 +59,7 @@ module applicationInsights 'br/public:avm/res/insights/component:0.6.0' = {
   scope: resourceGroup(rgName)
   params: {
     name: applicationInsightsName
+    tags: tags
     location: location
     workspaceResourceId: logAnalytics.outputs.resourceId
     disableLocalAuth: false
@@ -63,6 +71,7 @@ module storage 'br/public:avm/res/storage/storage-account:0.25.0' = {
   scope: resourceGroup(rgName)
   params: {
     name: storageAccountName
+    tags: tags
     allowBlobPublicAccess: false
     allowSharedKeyAccess: true // disable for MI authentication 
     dnsEndpointType: 'Standard'
@@ -86,6 +95,7 @@ module appServicePlan 'br/public:avm/res/web/serverfarm:0.1.1' = {
   scope: resourceGroup(rgName)
   params: {
     name: functionPlanName
+    tags: tags
     sku: {
       name: 'FC1'
       tier: 'FlexConsumption'
@@ -100,6 +110,7 @@ module functionApp 'br/public:avm/res/web/site:0.16.0' = {
   name: '${uniqueString(deployment().name, location)}-functionapp'
   scope: resourceGroup(rgName)
   params: {
+    tags: serviceTags
     kind: 'functionapp,linux'
     name: functionAppName
     location: location

@@ -7,6 +7,10 @@ param rgName string
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = uniqueString(subscription().id, environmentName, location)
 
+var tags = {
+  'azd-env-name': environmentName
+}
+
 /////////////////
 // APIM
 /////////////////
@@ -55,6 +59,7 @@ param webappPlanCapacity int
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: rgName
   location: location
+  tags: tags
 }
 
 var csAccountNameRedacted = !empty(csAccountName) ? csAccountName : '${abbrs.cognitiveServicesAccounts}${resourceToken}'
@@ -65,6 +70,7 @@ module openaiModule './OpenAI/main.bicep' = {
     location: location
     csAccountName: csAccountNameRedacted
     modelTPM: modelTPM
+    tags: tags
   }
 }
 
@@ -78,6 +84,7 @@ module signalRModule './SignalR/main.bicep' = {
     signalRName: signalRNameRedacted
     signalRSku: signalRSku
     signalRCapacity: signalRCapacity
+    tags: tags
   }
 }
 
@@ -91,6 +98,7 @@ module sbModule './ServiceBus/main.bicep' = {
     sbSku: sbSku
     sbCapacity: sbCapacity
     sbQueueName: sbQueueName
+    tags: tags
   }
 }
 
@@ -103,6 +111,7 @@ module apimModule './APIM/main.bicep' = {
     apimName: apimNameRedacted
     apimSku: apimSku
     sbName: sbNameRedacted
+    tags: tags
   }
 }
 
@@ -121,6 +130,7 @@ module functionModule './Function/main.bicep' = {
     sbQueueName: sbQueueName
     signalRName: signalRNameRedacted
     storageAccountName: !empty(storageAccountName) ? storageAccountName : '${abbrs.storageStorageAccounts}${resourceToken}'
+    tags: tags
   }
 }
 
@@ -136,5 +146,6 @@ module clientModule './Client/main.bicep' = {
     apimName: apimNameRedacted
     webappPlanCapacity: webappPlanCapacity
     webappPlanSku: webappPlanSku
+    tags: tags
   }
 }

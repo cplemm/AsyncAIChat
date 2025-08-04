@@ -1,3 +1,4 @@
+// https://github.com/Azure/bicep-registry-modules/tree/main/avm/res/web/site 
 targetScope = 'resourceGroup'
 
 param rgName string
@@ -11,6 +12,11 @@ param webappPlanCapacity int
 param webAppRuntimeVersion string = '9.0'
 param apimName string
 param signalRName string
+param tags object
+
+var serviceTags = union(tags, {
+  'azd-service-name': 'client'
+})
 
 resource apimService 'Microsoft.ApiManagement/service@2024-05-01' existing = {
   name: apimName
@@ -30,6 +36,7 @@ module appServicePlan 'br/public:avm/res/web/serverfarm:0.1.1' = {
   scope: resourceGroup(rgName)
   params: {
     name: webappPlanName
+    tags: tags
     location: location
     sku: {
       name: webappPlanSku
@@ -44,6 +51,7 @@ module site 'br/public:avm/res/web/site:0.16.0' = {
   name: '${uniqueString(deployment().name, location)}-webapp'
   scope: resourceGroup(rgName)
   params: {
+    tags: serviceTags
     kind: 'app' // Windows
     name: webappName
     serverFarmResourceId: appServicePlan.outputs.resourceId

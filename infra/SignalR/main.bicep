@@ -7,6 +7,11 @@ param location string = deployment().location
 param signalRName string
 param signalRSku string
 param signalRCapacity int
+param tags object
+
+var serviceTags = union(tags, {
+  'azd-service-name': 'signalr'
+})
 
 module signalR 'br/public:avm/res/signal-r-service/signal-r:0.10.0' = {
   scope: resourceGroup(rgName)
@@ -14,6 +19,7 @@ module signalR 'br/public:avm/res/signal-r-service/signal-r:0.10.0' = {
   params: {
     name: signalRName
     location: location
+    tags: serviceTags
     sku: signalRSku
     capacity: signalRCapacity
     disableLocalAuth: false
