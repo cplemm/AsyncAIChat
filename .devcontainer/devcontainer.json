@@ -1,0 +1,29 @@
+{
+  "name": "Async-Chat DevContainer",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
+  "features": {
+    "ghcr.io/devcontainers/features/azure-cli:1": {},
+    "ghcr.io/devcontainers/features/azure-dev-cli:1": {},
+    "ghcr.io/devcontainers/features/bicep:1": {},
+    "ghcr.io/devcontainers/features/node:1": { "version": "lts" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-azuretools.vscode-azurefunctions",
+        "ms-azuretools.vscode-azurecli",
+        "ms-azuretools.vscode-bicep",
+        "ms-azuretools.vscode-azurestaticwebapps",
+        "ms-azuretools.vscode-azureresourcegroups",
+        "ms-vscode.azure-account",
+        "ms-vscode.powershell",
+  "GitHub.copilot-chat",
+  "GitHub.copilot"
+      ]
+    }
+  },
+  "postCreateCommand": "dotnet restore ./src/Client/AIStreaming.csproj && dotnet restore ./src/Function/SBTriggerOAI.csproj",
+  "forwardPorts": [7071, 5000, 5001],
+  "remoteUser": "vscode"
+}
