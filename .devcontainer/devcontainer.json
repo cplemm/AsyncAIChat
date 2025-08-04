@@ -2,10 +2,11 @@
   "name": "Async-Chat DevContainer",
   "image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
   "features": {
-    "ghcr.io/devcontainers/features/azure-cli:1": {},
-    "ghcr.io/devcontainers/features/azure-dev-cli:1": {},
-    "ghcr.io/devcontainers/features/bicep:1": {},
-    "ghcr.io/devcontainers/features/node:1": { "version": "lts" }
+    "azure-cli": {},
+    "azure-dev-cli": {},
+    "bicep": {},
+    "node": { "version": "lts" },
+    "azure-functions-core-tools": {}
   },
   "customizations": {
     "vscode": {
@@ -18,8 +19,8 @@
         "ms-azuretools.vscode-azureresourcegroups",
         "ms-vscode.azure-account",
         "ms-vscode.powershell",
-  "GitHub.copilot-chat",
-  "GitHub.copilot"
+        "GitHub.copilot-chat",
+        "GitHub.copilot"
       ]
     }
   },
