@@ -47,8 +47,82 @@ The app implements a SignalR group chat with ChatGPT integration, see below.
 
 ![](Doc/chat.jpg)
 
+## Getting Started 
+The fastest way to get started with this repo is spinning the environment up in GitHub Codespaces, as it will set up everything for you autgomatically. You can also [set it up locally](#local-environment).
 
+### GitHub Codespaces
+Open a web-based VS Code tab in your browser:
 
-## Deployment 
+[![Open in GitHub Codespaces](https://img.shields.io/static/v1?style=for-the-badge&label=GitHub+Codespaces&message=Open&color=brightgreen&logo=github)](https://github.com/codespaces/new?template_repository=cplemm/AsyncAIChat)
 
-...
+### Local Environment
+1. Install the required tools:
+    - [Azure Developer CLI](https://aka.ms/azure-dev/install)
+    - [Azure Functions Core Tools](https://github.com/Azure/azure-functions-core-tools/blob/main/README.md)
+    - [.NET 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
+2. Clone this repo:
+```bash  
+git clone https://github.com/cplemm/AsyncAIChat.git
+```
+
+## Deployment
+
+### Deploy Azure Services
+
+The steps below will provision the required Azure resources. Enter the following commands inside a terminal in the root directory of the repo. 
+
+1. Login to your Azure account:
+
+    ```shell
+    azd auth login
+    ```
+
+    For GitHub Codespaces users, if the previous command fails, try:
+
+   ```shell
+    azd auth login --use-device-code
+    ```
+
+2. Create a new azd environment:
+
+    ```shell
+    azd env new
+    ```
+
+    Enter a name that will be used for the resource group.
+    This will create a new `.azure` folder and set it as the active environment for any calls to `azd` going forward.
+   
+3. Start provisioning of the Azure resources:
+
+    ```shell
+    azd provision
+    ```
+
+    You will have to select your subscription and an Azure region, and specify a name for the target resource group (rgName).
+
+4. Wait for the provisioning process to complete.
+
+### Deploy App & Function
+
+1.  The statement below will provision (a) the Azure Function to process messages and (b) the Web App for the chat UI.
+   
+    ```shell
+    azd deploy
+    ```
+
+2. Wait for the deployment process to complete.
+
+## Test
+
+To test the app, wait for the app deployment to finish. Then navigate to the URL of the web app and open it up in the browser. Check out the [original repo](https://github.com/aspnet/AzureSignalR-samples/tree/main/samples/AIStreaming#how-it-works) to see how the chat app works.
+
+## Clean up
+
+1.  To clean up all the resources created by this sample run the following statement, which will delete all resources, incl. the resource group.
+
+    ```shell
+    azd down --purge
+    ```
+
+The purge switch will make sure that the APIM and the Cognitive Services instances will get deleted permanently - otherwise soft deletion is the default, and re-running the provisioning process will run into errors.
+
