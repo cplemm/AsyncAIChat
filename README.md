@@ -1,6 +1,6 @@
 # Async AI Chat Solution
 
-This repo contains a sample for implementing asynchronous, decoupled communication with a Large Language Model (LLM) for systems that need to scale to many concurrent users.
+This repo contains a sample for implementing asynchronous, decoupled communication with a Large Language Model (LLM) for systems that need to scale to many concurrent users. For setup and deployment steps, go [here](#getting-started).
 
 ## Scenario
 Let's assume you have implemented the following architecture: a desktop app or SPA chat client is sending requests (incl. a natural language prompt from the user) to an API exposed in Azure via API Management (APIM). The API itself can be hosted using different services like Azure Functions, AKS, Container Apps, etc. The API component accesses a large language model (LLM) to retrieve a response for the user's prompt. All calls/connections are made synchronously.
@@ -22,12 +22,14 @@ The way to tackle this is to decouple components by using asynchronicity and mes
 ### Hand off request
 An easy way to do that in APIM is to implement a policy that takes the request coming from the client and passes it as a message into an Azure Service Bus (SB) queue. As soon as SB has persisted the message (and ACKed it back to APIM), APIM sends an 'HTTP 201 Created' response back to the client (where the user can potentially continue to do stuff, as the UI thread is not freezing 🙂).
 
-TODO: _include reference to policy snippet_
+The basic idea is to leverage a policy like [this one](https://github.com/Azure/api-management-policy-snippets/blob/master/examples/Authenticate%20using%20Managed%20Identity%20to%20access%20Service%20Bus.xml) from the official APIM snippets sample repo, and use it to pass on the HTTP request payload in the message body to Service Bus. 
 
 ### Work on request
 Now, a scalable worker component running in Azure Functions, Container Apps, AKS, etc. pulls the message from the queue and starts processing in the backend. In our simple scenario that's just an asynchronous call to an Azure OpenAI endpoint to retrieve an LLM response for the user's prompt. 
 
 **Note:** This processing step can obviously be a much more complex procedure (RAG, multi-agent collaboration, etc.) and might involve even more layers of decoupling/messaging. But let's keep it with a single layer of decoupling for now and observe the effect this already has on latency & scale.
+
+The main point here is that this layer of worker processes can be nicely scaled out with the number of messages sitting in the queue. There are multiple ways to do this in Azure => in this sample we will use Azure Functions with a Servce Bus trigger.
 
 ### Pass back response
 So, how do we deliver the response back to the UI client, as the initial call has returned immediately after the message has been passed to Azure Servce Bus, and that connection has been closed?
@@ -46,6 +48,8 @@ In order to demonstrate that, this repo shows a revised version for one of the c
 The app implements a SignalR group chat with ChatGPT integration, see below.
 
 ![](Doc/chat.jpg)
+
+Obviously, the response to a user's prompt would not go to a chat group in the real world, but only back to the sender. SignalR can be used to send messages to single users, to groups or to everyone who is connected to the same endpoint. For demo purposes the group concept actually comes in handy, as we will see. 
 
 ## Getting Started 
 The fastest way to get started with this repo is spinning the environment up in GitHub Codespaces, as it will set up everything for you autgomatically. You can also [set it up locally](#local-environment).
