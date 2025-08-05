@@ -113,6 +113,8 @@ namespace SBTriggerOAI
                 }
             }
 
+            Thread.Sleep(int.Parse(Environment.GetEnvironmentVariable("DelayInSeconds")) * 1000); // Simulate processing delay
+
             // Return SignalR message action
             return new SignalRMessageAction("NewMessage")
             {

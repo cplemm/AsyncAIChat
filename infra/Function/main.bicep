@@ -165,6 +165,7 @@ module functionApp 'br/public:avm/res/web/site:0.16.0' = {
         AzureSignalRHubName: 'groupchathub'
         ServiceBusQueueName: sbQueueName
         ServiceBusConnection: authRule.listKeys().primaryConnectionString
+        DelayInSeconds: '0' // Simulate processing delay
       }
     }]
   }
