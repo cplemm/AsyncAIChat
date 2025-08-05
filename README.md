@@ -51,6 +51,8 @@ The app implements a SignalR group chat with ChatGPT integration, see below.
 
 Obviously, the response to a user's prompt would not go to a chat group in the real world, but only back to the sender. SignalR can be used to send messages to single users, to groups or to everyone who is connected to the same endpoint. For demo purposes the group concept actually comes in handy, as we will see. 
 
+The main purpose of this sample is to demonstrate that 'putting a queue in the middle' in a scenario like this does not only improve scalability of your solution, but is also okay from an end-to-end latency perspective, as the major part of the response time will be taken by the backend call to the LLM.
+
 ## Getting Started 
 The fastest way to get started with this repo is spinning the environment up in GitHub Codespaces, as it will set up everything for you autgomatically. You can also [set it up locally](#local-environment).
 
