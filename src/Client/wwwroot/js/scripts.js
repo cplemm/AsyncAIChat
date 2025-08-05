@@ -89,13 +89,13 @@ function joinGroupWithName(groupName) {
 }
 
 function bindConnectionMessages(connection) {
-    connection.on('newMessage', (name, timestamp, message) => {
-        const localTimestamp = new Date().toLocaleString();
+    connection.on('newMessage', (name, timestampClient, timestampServer, message) => {
+        // const localTimestamp = new Date().toISOString().ToString("yyyy-MM-ddTHH:mm:ss.ff");
         // console.log('Received message:', name, timestamp, `(local: ${localTimestamp})`, message);
-        appendMessage(false, `${name}:\n${timestamp}\n${localTimestamp}\n${message}`);
+        appendMessage(false, `${name}:\n${timestampClient}\n${timestampServer}\n${message}`);
     });
-    connection.on('newMessageWithId', (name, id, message) => {
-        appendMessageWithId(id, `${name}:\n${timestamp}\n${message}`);
+    connection.on('newMessageWithId', (name, id, timestampClient, timestampServer, message) => {
+        appendMessageWithId(id, `${name}:\n${timestampClient}\n${timestampServer}\n${message}`);
     });
     connection.onclose(() => {
         updateConnectionStatus(false);
@@ -138,7 +138,7 @@ async function sendMessage() {
                     userName: realUserName,
                     groupName: groupName, 
                     message: message,
-                    timestamp: new Date().toISOString()
+                    timestamp: new Date().toISOString("yyyy-MM-ddTHH:mm:ss.ff").slice(0, -2)
                 })
             });
 
@@ -211,7 +211,8 @@ function appendMessageWithId(id, message) {
 function createMessageElement(message, isSender, id) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('message', isSender ? 'sent' : 'received');
-    messageElement.innerText = message;
+    const localTimestamp = new Date().toISOString().slice(0, -2);
+    messageElement.innerText = localTimestamp + ' - ' + message;
     if (id) {
         messageElement.id = id;
     }

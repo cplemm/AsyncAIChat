@@ -39,7 +39,7 @@ namespace SBTriggerOAI
         {
             _logger.LogInformation($"Message: {message}");
 
-            string userName, groupName, userMessage, timestamp;
+            string userName, groupName, userMessage, timestampClient = DateTime.MinValue.ToString("yyyy-MM-ddTHH:mm:ss.ff");
             try
             {
                 var obj = JsonSerializer.Deserialize<Dictionary<string, string>>(message);
@@ -48,14 +48,14 @@ namespace SBTriggerOAI
                 userName = obj.GetValueOrDefault("userName") ?? "Unknown";
                 groupName = obj.GetValueOrDefault("groupName") ?? "default";
                 userMessage = obj.GetValueOrDefault("message") ?? "";
-                timestamp = obj.GetValueOrDefault("timestamp") ?? "";
+                timestampClient = obj.GetValueOrDefault("timestamp") ?? "";
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to parse incoming message JSON: {ex.Message}");
                 return new SignalRMessageAction("NewMessage")
                 {
-                    Arguments = new object[] { "System", DateTime.Now, "Error processing message" },
+                    Arguments = new object[] { "System", timestampClient, DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.ff"), "Error processing message" },
                     GroupName = "default"
                 };
             }
@@ -84,7 +84,7 @@ namespace SBTriggerOAI
                         {
                             DeploymentName = deployment,
                             Messages = { new ChatRequestUserMessage(userMessage) },
-                            MaxTokens = 200
+                            MaxTokens = 100
                         };
 
                         // Get response from Azure OpenAI
@@ -116,7 +116,7 @@ namespace SBTriggerOAI
             // Return SignalR message action
             return new SignalRMessageAction("NewMessage")
             {
-                Arguments = new object[] { userName, DateTime.Now, responseMessage },
+                Arguments = new object[] { userName, timestampClient, DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.ff"), responseMessage },
                 GroupName = groupName
             };
         }
