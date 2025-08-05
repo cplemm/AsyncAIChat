@@ -166,6 +166,7 @@ module functionApp 'br/public:avm/res/web/site:0.16.0' = {
         ServiceBusQueueName: sbQueueName
         ServiceBusConnection: authRule.listKeys().primaryConnectionString
         DelayInSeconds: '0' // Simulate processing delay
+        MaxTokens: '100' // Maximum tokens for LLM response
       }
     }]
   }
