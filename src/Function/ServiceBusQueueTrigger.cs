@@ -84,7 +84,7 @@ namespace SBTriggerOAI
                         {
                             DeploymentName = deployment,
                             Messages = { new ChatRequestUserMessage(userMessage) },
-                            MaxTokens = 100
+                            MaxTokens = int.Parse(Environment.GetEnvironmentVariable("MaxTokens"))
                         };
 
                         // Get response from Azure OpenAI
