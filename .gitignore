@@ -468,3 +468,4 @@ tramp
 [Ee]xpress/
 .azure
 src/Client/appsettings.json
+src/TestClient/appsettings.json
