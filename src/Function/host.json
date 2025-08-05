@@ -8,5 +8,14 @@
             },
             "enableLiveMetricsFilters": true
         }
+    },
+    "extensions": {
+        "serviceBus": {
+            "prefetchCount": 128,
+            "messageHandlerOptions": {
+                "maxConcurrentCalls": 16,
+                "autoComplete": true
+            }
+        }
     }
 }
