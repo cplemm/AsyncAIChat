@@ -39,12 +39,21 @@ namespace TestClient
 
             connection.On<string, string, string, string>("NewMessage", (name, timestampClient, timestampServer, message) =>
             {
-                Console.WriteLine($"{DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.ff")} - {name}\n{timestampClient}\n{timestampServer}\n{message}");
+                if (message.Contains("Error processing AI request"))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.ff")} - {name}\n{timestampClient}\n{timestampServer}\n{message}");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine($"{DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.ff")} - {name}\n{timestampClient}\n{timestampServer}\n{message}");
+                }
             });
 
             connection.On<string, string, string, string, string>("newMessageWithId", (name, id, timestampClient, timestampServer, message) =>
             {
-                Console.WriteLine($"{DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.ff")} - {name} (id: {id})\n{timestampClient}\n{timestampServer}\n{message}");
+                // Console.WriteLine($"{DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.ff")} - {name} (id: {id})\n{timestampClient}\n{timestampServer}\n{message}");
             });
 
             await connection.StartAsync();
