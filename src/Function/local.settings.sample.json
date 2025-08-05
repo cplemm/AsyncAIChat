@@ -9,6 +9,7 @@
     "AzureOpenAIKey": "<openai-key>",
     "AzureOpenAIDeployment": "gpt-4o",
     "AzureSignalRConnectionString": "Endpoint=https://<signalr-name>.service.signalr.net;AccessKey=<signalr-access-key>;Version=1.0;",
-    "AzureSignalRHubName": "groupchathub"
+    "AzureSignalRHubName": "groupchathub",
+    "DelayInSeconds": 5
   }
 }
