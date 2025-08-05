@@ -90,12 +90,11 @@ function joinGroupWithName(groupName) {
 
 function bindConnectionMessages(connection) {
     connection.on('newMessage', (name, timestampClient, timestampServer, message) => {
-        // const localTimestamp = new Date().toISOString().ToString("yyyy-MM-ddTHH:mm:ss.ff");
         // console.log('Received message:', name, timestamp, `(local: ${localTimestamp})`, message);
-        appendMessage(false, `${name}:\n${timestampClient}\n${timestampServer}\n${message}`);
+        appendMessage(false, `${name}\n${timestampClient}\n${timestampServer}\n${message}`);
     });
     connection.on('newMessageWithId', (name, id, timestampClient, timestampServer, message) => {
-        appendMessageWithId(id, `${name}:\n${timestampClient}\n${timestampServer}\n${message}`);
+        appendMessageWithId(id, `${name}\n${timestampClient}\n${timestampServer}\n${message}`);
     });
     connection.onclose(() => {
         updateConnectionStatus(false);
