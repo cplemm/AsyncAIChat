@@ -28,7 +28,7 @@ The call is protected by an APIM subscription key, which is passed in the reques
 ## APIM to Azure Service Bus (SB)
 The API Management instance receives the request and forwards it on to an Azure Service Bus (SB) queue. This is done using a policy that takes the incoming request and sends it as a message to the SB queue directly. The message body contains the original request payload. 
 
-```json
+```xml
 <authentication-managed-identity resource="https://servicebus.azure.net" output-token-variable-name="msi-access-token" ignore-error="false" />
         <set-header name="Authorization" exists-action="override">
             <value>@((string)context.Variables["msi-access-token"])</value>
