@@ -1,6 +1,6 @@
 # Async AI Chat Solution
 
-This repo contains a sample for implementing asynchronous, decoupled communication with a Large Language Model (LLM) for systems that need to scale to many concurrent users. For setup and deployment steps, go [here](#getting-started).
+This repo contains a sample for implementing asynchronous, decoupled communication with a Large Language Model (LLM) for systems that need to scale to many concurrent users. For setup and deployment steps, go [here](#getting-started). For changes to the original sample, see [changes.md](./changes.md).
 
 ## Scenario
 Let's assume you have implemented the following architecture: a desktop app or SPA chat client is sending requests (incl. a natural language prompt from the user) to an API exposed in Azure via API Management (APIM). The API itself can be hosted using different services like Azure Functions, AKS, Container Apps, etc. The API component accesses a large language model (LLM) to retrieve a response for the user's prompt. All calls/connections are made synchronously.
@@ -53,7 +53,11 @@ Obviously, the response to a user's prompt would not go to a chat group in the r
 
 The main purpose of this sample is to demonstrate that 'putting a queue in the middle' in a scenario like this does not only improve scalability of your solution, but is also okay from an end-to-end latency perspective, as the major part of the response time will be taken by the backend call to the LLM anyway.
 
-Let's look at deploying the solution. If you are rather interested in inner workings and load test results, go [here](https://microsoft.com).  
+If you want to read about changes to the original chat sample, go [here](./changes.md).
+
+If you are rather interested in how to test the solution, go [here](./tests.md).
+
+Let's now look at deploying the solution. 
 
 ## Getting Started 
 The fastest way to get started with this repo is spinning the environment up in GitHub Codespaces, as it will set up everything for you autgomatically. You can also [set it up locally](#local-environment).
