@@ -48,4 +48,6 @@ For the Azure Function, Premium Plan might be an option to go much higher in ter
 
 Check the live metrics in App Insights and logs of the Azure Function to see if there are any errors.
 
-In case you encounter any issues, please submit a PR to this repo.
+Make sure to provision enough quota (TPM - tokens per minute) on your Azure OpenAI resource. If that's not high enough your load test calls will get throttled (HTTP 429 errors). In that case, the Function will return an error string, which the test client will print out in red color. 
+
+***In case you encounter any issues, please submit a PR to this repo.***
