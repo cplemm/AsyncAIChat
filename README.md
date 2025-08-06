@@ -144,7 +144,7 @@ The steps below will provision the required Azure resources. Enter the following
 
 To test the app, wait for the app deployment to finish. Then navigate to the URL of the web app and open it up in the browser. Check out the [original repo](https://github.com/aspnet/AzureSignalR-samples/tree/main/samples/AIStreaming#how-it-works) to see how the chat app works.
 
-Go [here](https://microsoft.com) for more information about test results.
+Go [here](./tests.md) for more information about how to test the app.
 
 ## Clean up
 
