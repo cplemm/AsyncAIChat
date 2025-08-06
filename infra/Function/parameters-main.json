@@ -26,6 +26,9 @@
       "csAccountName": {
         "value": "AsyncChatOpenAI"
       },
+      "modelName": {
+        "value": "gpt-4o"
+      },
       "signalRName": {
         "value": "AsyncChatSignalR"
       },

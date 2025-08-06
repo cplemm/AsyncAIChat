@@ -4,6 +4,7 @@ targetScope = 'resourceGroup'
 param location string
 param csAccountName string
 param modelTPM int
+param modelName string
 param tags object
 
 var serviceTags = union(tags, {
@@ -21,10 +22,10 @@ module csAccount 'br/public:avm/res/cognitive-services/account:0.12.0' = {
       {
         model: {
           format: 'OpenAI'
-          name: 'gpt-4o'
+          name: modelName
           version: '2024-11-20'
         }
-        name: 'gpt-4o'
+        name: modelName
         sku: {
           capacity: modelTPM
           name: 'Standard'

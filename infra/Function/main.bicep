@@ -9,6 +9,7 @@ param functionPlanName string
 param functionAppName string 
 param storageAccountName string 
 param csAccountName string 
+param modelName string
 param signalRName string
 param applicationInsightsName string 
 param sbName string
@@ -158,7 +159,7 @@ module functionApp 'br/public:avm/res/web/site:0.16.0' = {
         // Application Insights settings are always included
         APPLICATIONINSIGHTS_CONNECTION_STRING: applicationInsights.outputs.connectionString
         APPLICATIONINSIGHTS_AUTHENTICATION_STRING: 'Authorization=AAD'
-        AzureOpenAIDeployment: 'gpt-4o'
+        AzureOpenAIDeployment: modelName
         AzureOpenAIEndpoint: 'https://${location}.api.cognitive.microsoft.com/'
         AzureOpenAIKey: csAccount.listKeys().key1
         AzureSignalRConnectionString: signalR.listKeys().primaryConnectionString

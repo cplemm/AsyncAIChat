@@ -10,6 +10,9 @@
       },
       "modelTPM": {
         "value": 100
+      },
+      "modelName": {
+        "value": "gpt-4o"
       }
     }
   }

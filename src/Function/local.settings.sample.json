@@ -7,7 +7,7 @@
     "ServiceBusQueueName": "prompt",
     "AzureOpenAIEndpoint": "https://<region>.api.cognitive.microsoft.com/",
     "AzureOpenAIKey": "<openai-key>",
-    "AzureOpenAIDeployment": "gpt-4o",
+    "AzureOpenAIDeployment": "<modelName>",
     "AzureSignalRConnectionString": "Endpoint=https://<signalr-name>.service.signalr.net;AccessKey=<signalr-access-key>;Version=1.0;",
     "AzureSignalRHubName": "groupchathub",
     "MaxTokens": 100,
