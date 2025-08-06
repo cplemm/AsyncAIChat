@@ -1,6 +1,6 @@
 {
   "name": "Async-Chat DevContainer",
-  "image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
   "features": {
     "ghcr.io/devcontainers/features/azure-cli:1": {},
     "ghcr.io/azure/azure-dev/azd:latest": {},
