@@ -67,6 +67,8 @@ Open a web-based VS Code tab in your browser:
 
 [![Open in GitHub Codespaces](https://img.shields.io/static/v1?style=for-the-badge&label=GitHub+Codespaces&message=Open&color=brightgreen&logo=github)](https://github.com/codespaces/new?template_repository=cplemm/AsyncAIChat)
 
+Continue with the [deployment](#deployment).
+
 ### Local Environment
 1. Install the required tools:
     - [Azure Developer CLI](https://aka.ms/azure-dev/install)
