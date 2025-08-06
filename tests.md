@@ -16,11 +16,11 @@ When you create the test in your Azure Load Testing instance, select JMeter as t
 
 ![Load Test Files](./Doc/loadtest_files.jpg)
 
-Configure the test parameters for the JMeter script as shown below:
+Configure the test parameters for the JMeter script as in the example below:
 
 ![Load Test Files](./Doc/loadtest_params.jpg)
 
-Make sure to use the proper values for your environment, specifically for APIM.
+Make sure to use the proper values for your environment, specifically for APIM. For the random delay and thread parameters please check out the JMeter documentation.
 
 ## Test Results
 ### Monitoring in Test Client
