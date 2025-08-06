@@ -10,7 +10,7 @@ If you have deployed the solution into Azure, you can use the Azure Portal to mo
 
 ## Load Test
 
-If you want to do a more comprehensive load test, you can leverage the resources in the [`LoadTest`](./src/LoadTest/) folder. It contains a JMeter script and associated test data file that can be run standalone or using Azure Load Testing. For general instructions on how to run the load test in Azure, check out the [docs]([./src/LoadTest/README.md](https://learn.microsoft.com/en-us/azure/load-testing/how-to-create-and-run-load-test-with-jmeter-script)).
+If you want to do a more comprehensive load test, you can leverage the resources in the [`LoadTest`](./src/LoadTest/) folder. It contains a JMeter script and associated test data file that can be run standalone or using Azure Load Testing. For general instructions on how to run the load test in Azure, check out the [docs](https://learn.microsoft.com/en-us/azure/load-testing/how-to-create-and-run-load-test-with-jmeter-script).
 
 When you create the test in your Azure Load Testing instance, select JMeter as the framework and upload the JMeter script and test data file: 
 
