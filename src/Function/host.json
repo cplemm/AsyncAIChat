@@ -13,7 +13,7 @@
         "serviceBus": {
             "prefetchCount": 128,
             "messageHandlerOptions": {
-                "maxConcurrentCalls": 16,
+                "maxConcurrentCalls": 32,
                 "autoComplete": true
             }
         }
