@@ -64,7 +64,7 @@ The output field contains 3 timestamps:
   2. Time when the chat client sent the message to APIM
   3. Time when the Function sent the message to SignalR
 
-![Timestamps Example](doc/timestamps.jpg)
+![Timestamps Example](./doc/timestamps.jpg)
 
 These timestamps help understand the latency of the end-to-end process. The tests showed that, even under load, latency is not significantly different from the latency of the standalone model request, as this is usually in the range of multiple seconds already.
 
