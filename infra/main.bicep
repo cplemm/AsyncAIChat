@@ -46,6 +46,7 @@ param logAnalyticsName string = ''
 param applicationInsightsName string = ''
 param functionPlanName string = ''
 param storageAccountName string = ''
+param modelName string
 
 /////////////////
 // Web App
@@ -75,6 +76,7 @@ module openaiModule './OpenAI/main.bicep' = {
     location: location
     csAccountName: csAccountNameRedacted
     modelTPM: modelTPM
+    modelName: modelName
     tags: tags
   }
 }
@@ -143,6 +145,7 @@ module functionModule './Function/main.bicep' = {
     sbQueueName: sbQueueName
     signalRName: signalRNameRedacted
     storageAccountName: !empty(storageAccountName) ? storageAccountName : '${abbrs.storageStorageAccounts}${resourceToken}'
+    modelName: modelName
     tags: tags
   }
 }
