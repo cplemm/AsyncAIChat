@@ -1,6 +1,6 @@
 # Async AI Chat Solution
 
-This repo contains a sample for implementing asynchronous, decoupled communication with a Large Language Model (LLM) for systems that need to scale to many concurrent users. For setup and deployment steps, go [here](#getting-started). For changes to the original sample, see [changes.md](./changes.md).
+This repo contains a sample for implementing asynchronous, decoupled communication with a Large Language Model (LLM) for systems that need to scale to many concurrent users. For setup and deployment steps, go [getting started](#getting-started). For changes to the original sample, see [changes](./changes.md).
 
 ## Scenario
 Let's assume you have implemented the following architecture: a desktop app or SPA chat client is sending requests (incl. a natural language prompt from the user) to an API exposed in Azure via API Management (APIM). The API itself can be hosted using different services like Azure Functions, AKS, Container Apps, etc. The API component accesses a large language model (LLM) to retrieve a response for the user's prompt. All calls/connections are made synchronously.
