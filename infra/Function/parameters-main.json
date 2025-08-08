@@ -20,6 +20,9 @@
       "functionPlanName": {
         "value": "AsyncChatFunctionPlan"
       },
+      "functionPlanSkuName": {
+        "value": "EP3"
+      },
       "functionAppName": {
         "value": "AsyncChatFunctionApp"
       },

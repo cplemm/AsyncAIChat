@@ -45,6 +45,7 @@ param functionAppName string = ''
 param logAnalyticsName string = ''
 param applicationInsightsName string = ''
 param functionPlanName string = ''
+param functionPlanSkuName string = ''
 param storageAccountName string = ''
 param modelName string
 
@@ -138,6 +139,7 @@ module functionModule './Function/main.bicep' = {
     rgName: rgName
     functionAppName: !empty(functionAppName) ? functionAppName : '${abbrs.webSitesFunctions}${resourceToken}'
     functionPlanName: !empty(functionPlanName) ? functionPlanName : 'func${abbrs.webServerFarms}${resourceToken}'
+    functionPlanSkuName: !empty(functionPlanSkuName) ? functionPlanSkuName : 'EP1'
     sbName: sbNameRedacted
     applicationInsightsName: !empty(applicationInsightsName) ? applicationInsightsName : '${abbrs.appInsights}${resourceToken}'
     csAccountName: csAccountNameRedacted

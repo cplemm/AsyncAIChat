@@ -11,6 +11,9 @@
       "apimSku": {
         "value": "BasicV2"
       },
+      "functionPlanSkuName": {
+        "value": "EP3"
+      },
       "modelTPM": {
         "value": 100
       },

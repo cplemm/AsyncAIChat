@@ -6,6 +6,7 @@ param location string
 
 param logAnalyticsName string 
 param functionPlanName string 
+param functionPlanSkuName string
 param functionAppName string 
 param storageAccountName string 
 param csAccountName string 
@@ -15,22 +16,15 @@ param applicationInsightsName string
 param sbName string
 param sbQueueName string
 
-param functionAppRuntime string = 'dotnet-isolated'
-param functionAppRuntimeVersion string = '8.0'
-param maximumInstanceCount int = 100
-param instanceMemoryMB int = 2048
+// param functionAppRuntime string = 'dotnet-isolated'
+// param functionAppRuntimeVersion string = '8.0'
+// param maximumInstanceCount int = 100
+// param instanceMemoryMB int = 2048
 param tags object
 
 var serviceTags = union(tags, {
   'azd-service-name': 'function'
 })
-
-// Generate a unique token to be used in naming resources.
-@description('Name of the the environment which is used to generate a short unique hash used in all resources.')
-param environmentName string = 'xyz'
-var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
-// Ensure the container name is all lowercase and only contains valid characters
-var deploymentStorageContainerName = toLower(replace('app-package-${take(functionAppName, 32)}-${take(resourceToken, 7)}', '[^a-z0-9-]', ''))
 
 resource csAccount 'Microsoft.CognitiveServices/accounts@2025-06-01' existing = {
   name: csAccountName
@@ -67,98 +61,69 @@ module applicationInsights 'br/public:avm/res/insights/component:0.6.0' = {
   }
 }
 
-module storage 'br/public:avm/res/storage/storage-account:0.25.0' = {
-  name: '${uniqueString(deployment().name, location)}-storage'
-  scope: resourceGroup(rgName)
-  params: {
-    name: storageAccountName
-    tags: tags
+resource storageAccount 'Microsoft.Storage/storageAccounts@2025-01-01' = {
+  name: storageAccountName
+  location: location
+  tags: tags
+  sku: {
+    name: 'Standard_LRS'
+  }
+  kind: 'StorageV2'
+  properties: {
     allowBlobPublicAccess: false
-    allowSharedKeyAccess: true // disable for MI authentication 
-    dnsEndpointType: 'Standard'
-    publicNetworkAccess: 'Enabled'
-    networkAcls: {
-      defaultAction: 'Allow'
-      bypass: 'AzureServices'
-    }
-    blobServices: {
-      containers: [{name: deploymentStorageContainerName}]
-    }
-    tableServices:{}
-    queueServices: {}
-    minimumTlsVersion: 'TLS1_2'  // Enforcing TLS 1.2 for better security
-    location: location
+    minimumTlsVersion: 'TLS1_2'
+    supportsHttpsTrafficOnly: true
   }
 }
 
 module appServicePlan 'br/public:avm/res/web/serverfarm:0.1.1' = {
-  name: '${uniqueString(deployment().name, location)}-appserviceplan'
+  name: '${uniqueString(deployment().name, location)}-appserviceplan2'
   scope: resourceGroup(rgName)
   params: {
     name: functionPlanName
     tags: tags
+    kind: 'Elastic'
     sku: {
-      name: 'FC1'
-      tier: 'FlexConsumption'
+      name: functionPlanSkuName
+      tier: 'ElasticPremium'
     }
-    reserved: true
+    reserved: false
+    maximumElasticWorkerCount: 20
     location: location
     zoneRedundant: false
   }
 }
 
+var storageConnectionString = 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};AccountKey=${storageAccount.listKeys().keys[0].value};EndpointSuffix=${environment().suffixes.storage}'
 module functionApp 'br/public:avm/res/web/site:0.16.0' = {
-  name: '${uniqueString(deployment().name, location)}-functionapp'
+  name: '${uniqueString(deployment().name, location)}-functionapp3'
   scope: resourceGroup(rgName)
   params: {
     tags: serviceTags
-    kind: 'functionapp,linux'
+    kind: 'functionapp'
     name: functionAppName
     location: location
     serverFarmResourceId: appServicePlan.outputs.resourceId
     managedIdentities: {
       systemAssigned: true
     }
-    functionAppConfig: {
-      deployment: {
-        storage: {
-          type: 'blobContainer'
-          value: '${storage.outputs.primaryBlobEndpoint}${deploymentStorageContainerName}'
-          authentication: {
-            type: 'SystemAssignedIdentity'
-          }
-        }
-      }
-      scaleAndConcurrency: {
-        maximumInstanceCount: maximumInstanceCount
-        instanceMemoryMB: instanceMemoryMB
-        alwaysReady: [
-          {
-            name: 'function:processmessage'
-            instanceCount: 1
-          }
-        ]
-      }
-      runtime: { 
-        name: functionAppRuntime
-        version: functionAppRuntimeVersion
-      }
-    }
     siteConfig: {
       alwaysOn: false
+      minimumElasticInstanceCount: 1
     }
     configs: [{
       name: 'appsettings'
       properties:{
-        // Only include required credential settings unconditionally
-        AzureWebJobsStorage__credential: 'managedidentity'
-        AzureWebJobsStorage__blobServiceUri: 'https://${storage.outputs.name}.blob.${environment().suffixes.storage}'
-        AzureWebJobsStorage__queueServiceUri: 'https://${storage.outputs.name}.queue.${environment().suffixes.storage}'
-        AzureWebJobsStorage__tableServiceUri: 'https://${storage.outputs.name}.table.${environment().suffixes.storage}'
+        AzureWebJobsStorage: storageConnectionString
+        WEBSITE_CONTENTAZUREFILECONNECTIONSTRING: storageConnectionString
+        WEBSITE_CONTENTSHARE: toLower(functionAppName)
 
         // Application Insights settings are always included
         APPLICATIONINSIGHTS_CONNECTION_STRING: applicationInsights.outputs.connectionString
         APPLICATIONINSIGHTS_AUTHENTICATION_STRING: 'Authorization=AAD'
+        FUNCTIONS_EXTENSION_VERSION: '~4'
+        FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated'
+        FUNCTIONS_WORKER_RUNTIME_VERSION: '~8'
         AzureOpenAIDeployment: modelName
         AzureOpenAIEndpoint: 'https://${location}.api.cognitive.microsoft.com/'
         AzureOpenAIKey: csAccount.listKeys().key1
@@ -166,7 +131,7 @@ module functionApp 'br/public:avm/res/web/site:0.16.0' = {
         AzureSignalRHubName: 'groupchathub'
         ServiceBusQueueName: sbQueueName
         ServiceBusConnection: authRule.listKeys().primaryConnectionString
-        DelayInSeconds: '0' // Simulate processing delay
+        DelayInSeconds: '10' // Simulate processing delay
         MaxTokens: '100' // Maximum tokens for LLM response
       }
     }]
@@ -178,7 +143,7 @@ module rbacAssignments './rbac.bicep' = {
   name: 'rbacAssignmentsFunction'
   scope: resourceGroup(rgName)
   params: {
-    storageAccountName: storage.outputs.name
+    storageAccountName: storageAccountName
     appInsightsName: applicationInsights.outputs.name
     managedIdentityPrincipalId: functionApp.outputs.?systemAssignedMIPrincipalId ?? ''
   }
