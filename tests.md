@@ -63,7 +63,7 @@ Testing showed a throughput of up to ~40 requests per second, see image below.
 For increased load, the Service Bus queue started to fill up, and the Flex Consumption instances couldn't keep up or scale out fast enough. I didn't dig much deeper into configuration options for Flex Consumption, as I wanted to check out the Premium Plans and longer backend processing times anyway. 
 
 ### High Throughput Scenario
-In the high-throughput scenario, I configured a delay for the backend, e.g., I set `DelayInSeconds` in the Function App Settings to 10 seconds. This delay is added to the backend processing time, after the function has called the LLM. So, overall backend processing time would be around 12-13 seconds, and I wanted to see end-to-end latency remain stable even under very high load.
+In the high-throughput scenario, I configured a delay for the backend, e.g., I set `DelayInSeconds` in the Function App Settings to 10 seconds. This delay is added to the backend processing time, after the function has called the LLM. So, overall backend processing time would be around 12-13 seconds, and I wanted to see end-to-end latency remain stable even under very high load, without any issues with timeouts, port exhaustion, etc.
 
 I used the Premium Plan to host the Azure Function for this scenario, as it offers better scaling options and performance compared to the Flex Consumption Plan. I deployed a Service Plan with 2 [Always Ready](https://learn.microsoft.com/en-us/azure/azure-functions/functions-premium-plan?tabs=portal#always-ready-instances) EP3 instances.
 
@@ -79,7 +79,7 @@ In `host.json`, I configured the following settings for the [Service Bus trigger
     }
 ```
 
-I did not change the original Function code, so each function instance just processes a single Service Bus message. The Function Premium engine ensures that the instances can scale out to handle the load. That worked quite nicely. Going even higher in terms of throughput might require processing messages in batches & in parallel per instance, which is supported by the Service Bus trigger. 
+I did not change the original Function code, so each function instance call just processes a single Service Bus message. The Function Premium engine ensures that the instances can scale out to handle the load. That worked quite nicely. Going even higher in terms of throughput might require processing messages in batches & in parallel per instance, which is supported by the Service Bus trigger. 
 
 You can find the deployment scripts for the high-throughput scenario (incl. deployment of the Premium Plan & `host.json` settings) in the `main` branch of this repo.
 
@@ -92,6 +92,12 @@ The image shows a flat processing time of around 12 seconds, which is the sum of
 Also my console test client confirmed an end-to-end latency of around 12-14 seconds as well, see below: 
 
 ![Test Client](./Doc/testclient2.jpg)
+
+So, what do we learn from this? Long-running backend processing and high throughput at the same time can be achieved with decoupling via message queues and the right configuration and scaling options in Azure. 
+
+You need to make sure that all communication in the backend is done asynchronously and is non-blocking. You might even have to use more queuing between components in the backend. If you design your consumers properly, the minimal additional latency will most likely not be noticable, especially as long as LLM responses are in the range of multiple seconds.
+
+Processing Logic does not have to happen in Azure Functions, it could also be hosted in AKS or Container Apps. You just have to make sure to configure & scale the message receive logic in the right way and enable it to scale out horizontally.
 
 ## Troubleshooting
 You will need to play with the testing parameters (e.g., `RandomDelayMax`, `RandomDelayOffset`, `NumThreads`) during the load test to find the right mix to achieve your desired throughput.
