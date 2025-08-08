@@ -9,11 +9,14 @@
             "enableLiveMetricsFilters": true
         }
     },
+    "concurrency": { 
+            "dynamicConcurrencyEnabled": true, 
+            "snapshotPersistenceEnabled": true 
+        },
     "extensions": {
         "serviceBus": {
-            "prefetchCount": 128,
+            "prefetchCount": 8,
             "messageHandlerOptions": {
-                "maxConcurrentCalls": 32,
                 "autoComplete": true
             }
         }
