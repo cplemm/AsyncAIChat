@@ -93,6 +93,8 @@ Also my console test client confirmed an end-to-end latency of around 12-14 seco
 
 ![Test Client](./Doc/testclient2.jpg)
 
+## Conclusion
+
 So, what do we learn from this? Long-running backend processing and high throughput at the same time can be achieved with decoupling via message queues and the right configuration and scaling options in Azure. 
 
 You need to make sure that all communication in the backend is done asynchronously and is non-blocking. You might even have to use more queuing between components in the backend. If you design your consumers properly, the minimal additional latency will most likely not be noticable, especially as long as LLM responses are in the range of multiple seconds.
