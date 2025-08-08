@@ -50,7 +50,7 @@ To demonstrate this, I first tested a 'base' scenario, with the Function calling
 Then I tested a 'high-throughput, long-running processing' scenario, where the Function first calls the LLM and then simulates further backend processing for a configurable time via an asynchronous Task.Delay() call. Imagine this being a group of agents collaborating on a task, which might take some time. You can see the results of my test runs [here](#high-throughput-scenario).
 
 ### Base Scenario
-In the base scenario, no delay is configured for the backend, i.e. `DelayInSeconds` in the Function App Settings is set to 0. The Function calls the LLM and returns the response immediately via SignalR. Backend processing times for the simple prompts I used (see [loadtest.parameters.csv](./LoadTest/loadtest.parameters.csv)) was around 2-3 seconds. 
+In the base scenario, no delay is configured for the backend, i.e. `DelayInSeconds` in the Function App Settings is set to 0. The Function calls the LLM and returns the response immediately via SignalR. Backend processing times for the simple prompts I used (see [loadtest.parameters.csv](./src/LoadTest/loadtest.parameters.csv)) was around 2-3 seconds. 
 
 I used the Flex Consumption Plan to host the Azure Function, and wanted to see how far this would scale for the base approach. I configured *Dynamic Concurrency* in `host.json`, see [here](https://learn.microsoft.com/en-us/azure/azure-functions/functions-concurrency#dynamic-concurrency-configuration) for details.
 
