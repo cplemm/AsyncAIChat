@@ -17,8 +17,8 @@
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group 1" enabled="true">
-        <stringProp name="ThreadGroup.num_threads">${__BeanShell( System.getenv(&quot;NumThreads&quot;) )}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">${__BeanShell( System.getenv(&quot;RampUpTime&quot;) != null ? System.getenv(&quot;RampUpTime&quot;) : &quot;60&quot; )}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${__BeanShell( System.getenv(&quot;NumThreads&quot;) != null ? System.getenv(&quot;NumThreads&quot;) : &quot;20&quot; )}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__BeanShell( System.getenv(&quot;RampUpTime&quot;) != null ? System.getenv(&quot;RampUpTime&quot;) : &quot;240&quot; )}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" enabled="true">
@@ -111,8 +111,8 @@ vars.put(&quot;timestamp&quot;, isoTimestamp)</stringProp>
           </ResponseAssertion>
           <hashTree/>
           <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Uniform Random Timer" enabled="true">
-            <stringProp name="ConstantTimer.delay">${__BeanShell( System.getenv(&quot;RandomDelayOffset&quot;) )}</stringProp>
-            <stringProp name="RandomTimer.range">${__BeanShell( System.getenv(&quot;RandomDelayMax&quot;) )}</stringProp>
+            <stringProp name="ConstantTimer.delay">${__BeanShell( System.getenv(&quot;RandomDelayOffset&quot;) != null ? System.getenv(&quot;RandomDelayOffset&quot;) : &quot;100&quot; )}</stringProp>
+            <stringProp name="RandomTimer.range">${__BeanShell( System.getenv(&quot;RandomDelayMax&quot;) != null ? System.getenv(&quot;RandomDelayMax&quot;) : &quot;100&quot; )}</stringProp>
           </UniformRandomTimer>
           <hashTree/>
         </hashTree>
