@@ -105,7 +105,7 @@ namespace SBTriggerOAI
                         // Get response from Azure OpenAI with timeout
                         using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
                         cts.CancelAfter(TimeSpan.FromSeconds(30)); // 30 second timeout for OpenAI call
-                        
+
                         var response = await client.GetChatCompletionsAsync(chatCompletionsOptions, cts.Token);
                         if (response.Value?.Choices?.Count > 0)
                         {
@@ -118,6 +118,13 @@ namespace SBTriggerOAI
                         {
                             _logger.LogError("No response received from Azure OpenAI");
                             responseMessage = "No response from AI service";
+                        }
+
+                        // Simulate processing delay without blocking the thread
+                        int delaySec = int.Parse(Environment.GetEnvironmentVariable("DelayInSeconds") ?? "0");
+                        if (delaySec > 0) {
+                            _logger.LogInformation($"Delaying processing for {delaySec} second(s)");
+                            await Task.Delay(delaySec * 1000);
                         }
                     }
                     catch (InvalidOperationException ex)
