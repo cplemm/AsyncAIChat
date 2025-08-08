@@ -31,8 +31,7 @@ namespace SBTriggerOAI
                     Delay = TimeSpan.FromSeconds(1),
                     MaxDelay = TimeSpan.FromSeconds(30),
                     Mode = Azure.Core.RetryMode.Exponential
-                },
-                NetworkTimeout = TimeSpan.FromMinutes(2)
+                }
             };
             
             return new OpenAIClient(new Uri(endpoint), new AzureKeyCredential(apiKey), clientOptions);
