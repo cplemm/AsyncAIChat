@@ -80,7 +80,8 @@ namespace SBTriggerOAI
             {
                 // Get deployment name from environment variable
                 var deployment = Environment.GetEnvironmentVariable("AzureOpenAIDeployment");
-                
+                _logger.LogInformation($"LLM Deployment: {deployment}");
+
                 if (string.IsNullOrEmpty(deployment))
                 {
                     _logger.LogError("Azure OpenAI deployment configuration is missing. Please set AzureOpenAIDeployment environment variable.");
